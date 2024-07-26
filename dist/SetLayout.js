@@ -26,28 +26,8 @@ const SetLayout = ({ pin, styles, mode, textOptions, options, onSwitchMode, onSe
                 (curPin + value);
             setCurPin(newPin);
             if (newPin.length == (options === null || options === void 0 ? void 0 : options.pinLength)) {
-                // STEP 1
-                if (status == PinCodeT.Statuses.Initial) {
-                    setLastPin(newPin);
-                    setStatus(PinCodeT.Statuses.SetOnce);
-                    setCurPin('');
-                }
-                // STEP 2
-                else if (status == PinCodeT.Statuses.SetOnce) {
-                    if (lastPin == newPin) { // pin matched
-                        onSet(newPin);
-                    }
-                    else { // pin doesn't matched
-                        setShowError(true);
-                        if (Platform.OS === 'ios') {
-                            Vibration.vibrate(); // android requires VIBRATE permission
-                        }
-                        setTimeout(() => setShowError(false), 3000);
-                        setTimeout(() => setCurPin(''), 1500);
-                    }
-                    setStatus(PinCodeT.Statuses.Initial);
-                    setLastPin('');
-                }
+                onSet(newPin);
+                setCurPin('');
             }
         });
     }
